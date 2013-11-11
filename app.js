@@ -6,7 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var about_page = require('./routes/about');
-var user = require('./routes/user');
+// var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 
@@ -25,6 +25,10 @@ app.use(app.router);
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// MongoDB related info
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/lt');
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -33,7 +37,8 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/about', about_page.about);
 app.get('/contact', about_page.contact);
-app.get('/users', user.list);
+// app.get('/users', user.list);
+// app.get('/users', routes.user(db));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
