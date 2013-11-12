@@ -4,9 +4,12 @@ block content
   h1= title
   p This page contains the details of the users saved in the database
   p Currently, there are a total of #{userlist.length} users.
-  ul
+  table
     each user, i in userlist
-      li #{user.name} is #{user.age} yrs old and works in #{user.work}
+      tr
+        td #{user.name} is #{user.age} yrs old and works in <b>#{user.work}</b> industry while living in #{user.residence}
+        td 
+          a#change(href="/remove/#{user._id}") Remove
 
   div#new-user
     a(href="/newuser") New User

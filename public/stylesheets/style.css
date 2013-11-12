@@ -117,6 +117,16 @@ body {
 #new-user:hover {
   background-color: #db0d5f;
 }
+#change {
+  padding: 0px 5px 0px 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+#change:hover {
+  background-color: #db0d5f;
+}
 /* Typography
 -----------------------------------------------------------------------------*/
 h1 {

@@ -44,6 +44,7 @@ app.get('/users', user.list);
 app.get('/userlist', user.userlist(db));
 app.get('/newuser', user.newuser)
 app.post('/adduser', user.adduser(db))
+app.get('/remove/:id', user.removeuser(db))
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

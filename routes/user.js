@@ -59,3 +59,24 @@ exports.adduser = function(db){
 		});
 	}
 }
+exports.removeuser = function(db){
+	return function(req, res){
+		$mongoose.models = {};
+		$mongoose.modelSchemas = {};
+		var Schema = $mongoose.Schema;
+		var User = db.model('User', new Schema({name: String, work: String, age: Number, residence: String}), 'lt');
+		User.findOne({_id:req.params.id}, function(err, result){
+			if(err){
+				throw err;
+			}
+			if(result){
+				User.remove({_id:req.params.id}, function(err, result){
+					if(err){
+						throw err;
+					}
+					res.render('about', {title:'Removed user', message: "Removed user with ID:"+req.params.id})
+				});
+			}
+		});
+	}
+}
