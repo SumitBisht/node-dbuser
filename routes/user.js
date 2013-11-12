@@ -1,4 +1,4 @@
-
+var $mongoose = require('mongoose');
 /*
  * GET users listing.
  */
@@ -9,12 +9,12 @@ exports.list = function(req, res){
 exports.userlist = function(db){
 	return function(req, res){
 		try{
-			var mongoose = require('mongoose');
+			
 			// Fix for OverwriteModelError - reset the saved models and their schemas
-			mongoose.models = {};
-			mongoose.modelSchemas = {};
+			$mongoose.models = {};
+			$mongoose.modelSchemas = {};
 
-			var Schema = mongoose.Schema;
+			var Schema = $mongoose.Schema;
 			var collection = db.model('User', new Schema({name: String, work: String, age: Number, residence: String}), 'lt');
 			collection.find(function(error, results){
 				res.render('uselist', {title: 'Got the results', userlist: results})
@@ -32,17 +32,24 @@ exports.adduser = function(db){
 	return function(req, res){
 		var userName = req.body.username;
 		var work = req.body.work;
-		var age = req.body.age;
-		var residence = req.body.residence;
-
-		var collection = db.get('lt');
+		var age = parseInt(req.body.age, 10);
+		var residence = req.body.residence
+		if(residence.indexOf(",")!=-1)
+		{
+			residence = residence.split(",");
+		}
+		$mongoose.models = {};
+		$mongoose.modelSchemas = {};
+		var Schema = $mongoose.Schema;
+		var User = db.model('User', new Schema({name: String, work: String, age: Number, residence: String}), 'lt');
 		//Submit values to db
-		collection.insert({
+		var collection =new User({
 			"name": userName,
 			"work": work,
 			"age" : age,
 			"residence" : residence
-		},  function(err, doc){
+		});
+		collection.save( function(err){
 			if(err){
 				res.send("There was a problem in saving the contents");
 			}else{
