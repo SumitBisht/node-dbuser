@@ -1,0 +1,14 @@
+extends layout
+
+block content
+	h1= title
+	form#formAddUser(name="adduser",method="post",action="/adduser")
+		input#inputUserName(type="text", placeholder="username", name="username")
+		br
+		input#inputWork(type="text", placeholder="work", name="work")
+		br
+		input#inputAge(type="text", placeholder="age", name="age")
+		br
+		input#inputUserCity(type="textArea", placeholder="residence", name="residence")
+		br
+		button#new-user(type="submit", name="Submit") Create

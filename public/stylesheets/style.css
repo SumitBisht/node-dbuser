@@ -101,6 +101,22 @@ body {
   -o-border-bottom-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
+#new-user {
+  width: 100px;
+  text-align: center;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -o-border-radius: 15px;
+  border-radius: 15px;
+  display: inline-block;
+  background: #fc9200;
+  padding: 10px 5px;
+  position: relative;
+  cursor: pointer;
+}
+#new-user:hover {
+  background-color: #db0d5f;
+}
 /* Typography
 -----------------------------------------------------------------------------*/
 h1 {
