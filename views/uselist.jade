@@ -9,6 +9,8 @@ block content
       tr
         td #{user.name} is #{user.age} yrs old and works in <b>#{user.work}</b> industry while living in #{user.residence}
         td 
+          a#change(href="/edit/#{user._id}") Change 
+        td 
           a#change(href="/remove/#{user._id}") Remove
 
   div#new-user

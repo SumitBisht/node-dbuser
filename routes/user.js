@@ -1,4 +1,4 @@
-var $mongoose = require('mongoose');
+var mongoose = require('mongoose'), UserModel = require('../models/user.js'),User = mongoose.model('User')
 /*
  * GET users listing.
  */
@@ -9,14 +9,13 @@ exports.list = function(req, res){
 exports.userlist = function(db){
 	return function(req, res){
 		try{
-			
-			// Fix for OverwriteModelError - reset the saved models and their schemas
-			$mongoose.models = {};
-			$mongoose.modelSchemas = {};
-
-			var Schema = $mongoose.Schema;
-			var collection = db.model('User', new Schema({name: String, work: String, age: Number, residence: String}), 'lt');
-			collection.find(function(error, results){
+			// Fix for OverwriteModelError - reset the saved models and their modelSchemas
+			// $mongoose.models = {};
+			// $mongoose.modelSchemas = {};
+			// var Schema = $mongoose.Schema;
+			// var collection = db.model('User', new Schema({name: String, work: String, age: Number, residence: String}), 'lt');
+			// var user = new User();
+			User.find(function(error, results){
 				res.render('uselist', {title: 'Got the results', userlist: results})
 			});
 		}catch (err){
@@ -38,10 +37,10 @@ exports.adduser = function(db){
 		{
 			residence = residence.split(",");
 		}
-		$mongoose.models = {};
-		$mongoose.modelSchemas = {};
-		var Schema = $mongoose.Schema;
-		var User = db.model('User', new Schema({name: String, work: String, age: Number, residence: String}), 'lt');
+		// $mongoose.models = {};
+		// $mongoose.modelSchemas = {};
+		// var Schema = $mongoose.Schema;
+		// var User = db.model('User', new Schema({name: String, work: String, age: Number, residence: String}), 'lt');
 		//Submit values to db
 		var collection =new User({
 			"name": userName,
@@ -61,10 +60,11 @@ exports.adduser = function(db){
 }
 exports.removeuser = function(db){
 	return function(req, res){
-		$mongoose.models = {};
-		$mongoose.modelSchemas = {};
-		var Schema = $mongoose.Schema;
-		var User = db.model('User', new Schema({name: String, work: String, age: Number, residence: String}), 'lt');
+	// 	$mongoose.models = {};
+	// 	$mongoose.modelSchemas = {};
+	// 	var Schema = $mongoose.Schema;
+	// 	var User = db.model('User', new Schema({name: String, work: String, age: Number, residence: String}), 'lt');
+
 		User.findOne({_id:req.params.id}, function(err, result){
 			if(err){
 				throw err;
@@ -78,5 +78,15 @@ exports.removeuser = function(db){
 				});
 			}
 		});
+	}
+}
+
+exports.changeuser = function(req, res){
+	var id = req.params.id;
+	res.render('edituser', {title: 'Update user', id: id, name:'username', work: 'work', age: 'age', residence:'residence'})
+}
+exports.updateuser = function(db){
+	return function(req, res){
+		return null;
 	}
 }
