@@ -9,12 +9,6 @@ exports.list = function(req, res){
 exports.userlist = function(db){
 	return function(req, res){
 		try{
-			// Fix for OverwriteModelError - reset the saved models and their modelSchemas
-			// $mongoose.models = {};
-			// $mongoose.modelSchemas = {};
-			// var Schema = $mongoose.Schema;
-			// var collection = db.model('User', new Schema({name: String, work: String, age: Number, residence: String}), 'lt');
-			// var user = new User();
 			User.find(function(error, results){
 				res.render('uselist', {title: 'Got the results', userlist: results})
 			});
@@ -37,10 +31,6 @@ exports.adduser = function(db){
 		{
 			residence = residence.split(",");
 		}
-		// $mongoose.models = {};
-		// $mongoose.modelSchemas = {};
-		// var Schema = $mongoose.Schema;
-		// var User = db.model('User', new Schema({name: String, work: String, age: Number, residence: String}), 'lt');
 		//Submit values to db
 		var collection =new User({
 			"name": userName,
@@ -52,19 +42,14 @@ exports.adduser = function(db){
 			if(err){
 				res.send("There was a problem in saving the contents");
 			}else{
-				res.location("/");
-				res.redirect("/");
+				res.location("/userlist");
+				res.redirect("/userlist");
 			}
 		});
 	}
 }
 exports.removeuser = function(db){
 	return function(req, res){
-	// 	$mongoose.models = {};
-	// 	$mongoose.modelSchemas = {};
-	// 	var Schema = $mongoose.Schema;
-	// 	var User = db.model('User', new Schema({name: String, work: String, age: Number, residence: String}), 'lt');
-
 		User.findOne({_id:req.params.id}, function(err, result){
 			if(err){
 				throw err;
