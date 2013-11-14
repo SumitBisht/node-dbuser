@@ -68,10 +68,47 @@ exports.removeuser = function(db){
 
 exports.changeuser = function(req, res){
 	var id = req.params.id;
-	res.render('edituser', {title: 'Update user', id: id, name:'username', work: 'work', age: 'age', residence:'residence'})
+	User.findById(id, function(err, obj){
+		res.render('edituser', {title: 'Update user', param: id, user: obj});
+	});
+	
 }
+
 exports.updateuser = function(db){
 	return function(req, res){
-		return null;
+		var id = req.body.id;
+		var user_name = req.body.username;
+		var user_work = req.body.work;
+		var user_age = parseInt(req.body.age, 10);
+		var user_residence = req.body.residence;
+		if(user_residence.indexOf(",")!=-1)
+		{
+			user_residence = user_residence.split(",");
+		}
+		var updated_record = { _id:id, name:user_name, age:user_age, work:user_work, residence:user_residence };
+		// user_age = 
+		// User.findOneAndUpdate({"_id":req.params.id}, {$set: updated_record}, function(error, thing){
+		// 	res.location("/userlist");
+		// 	res.redirect("/userlist");
+		// });
+		User.findById(id, function(err, result){
+			if(err){
+				res.render('about', { title: 'Error in locating', message: 'Unable to fetch users due to: '+err+' with user as '+updated_record });
+			}
+			else{
+				result.name = user_name;
+				result.work = user_work;
+				result.age = user_age;
+				result.residence = user_residence;
+				result.save(function(error){
+					if(error){
+						res.render('about', { title: 'Error in saving', message: 'Unable to fetch users due to: '+error+' with user as '+result });
+					}else{
+						res.location("/userlist");
+						res.redirect("/userlist");
+					}
+				});
+			}
+		});
 	}
 }

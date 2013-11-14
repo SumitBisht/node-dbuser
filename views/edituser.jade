@@ -1,0 +1,26 @@
+extends layout
+
+block content
+	h1= title
+	form#formAddUser(name="edituser",method="post",action="/update/"+id)
+		input#userId(name="id", type="hidden", value="#{user._id}")
+		table
+			tr
+				td Username
+				td
+					input#inputUserName(type="text", name="username", value="#{user.name}")
+			tr
+				td Work
+				td
+					input#inputWork(type="text", name="work", value="#{user.work}")
+			tr
+				td Age
+				td
+					input#inputAge(type="text", name="age", value="#{user.age}")
+			tr
+				td Residence
+				td
+					input#inputUserCity(type="textArea", name="residence", value="#{user.residence}")
+			tr
+				td(colspan=2, align="center")
+					button#new-user(type="submit", name="Submit") Update
