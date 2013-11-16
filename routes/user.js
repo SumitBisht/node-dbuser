@@ -76,39 +76,18 @@ exports.changeuser = function(req, res){
 
 exports.updateuser = function(db){
 	return function(req, res){
-		var id = req.body.id;
-		var user_name = req.body.username;
-		var user_work = req.body.work;
-		var user_age = parseInt(req.body.age, 10);
-		var user_residence = req.body.residence;
-		if(user_residence.indexOf(",")!=-1)
+		var user_res = req.body.residence;
+		if(user_res.indexOf(",")!=-1)
 		{
-			user_residence = user_residence.split(",");
+			user_res = user_res.split(",");
 		}
-		var updated_record = { _id:id, name:user_name, age:user_age, work:user_work, residence:user_residence };
-		// user_age = 
-		// User.findOneAndUpdate({"_id":req.params.id}, {$set: updated_record}, function(error, thing){
-		// 	res.location("/userlist");
-		// 	res.redirect("/userlist");
-		// });
-		User.findById(id, function(err, result){
-			if(err){
-				res.render('about', { title: 'Error in locating', message: 'Unable to fetch users due to: '+err+' with user as '+updated_record });
+		var user_age = parseInt(req.body.age, 10);
+
+		User.findByIdAndUpdate(req.body.id, {residence:user_res, age: user_age, work:req.body.work, name:req.body.username}, function(error, update){
+			if(error){
+				res.render('about', { title: 'Error in updating', message: 'Unable to fetch users due to: '+error+' with response as: '+req.body });
 			}
-			else{
-				result.name = user_name;
-				result.work = user_work;
-				result.age = user_age;
-				result.residence = user_residence;
-				result.save(function(error){
-					if(error){
-						res.render('about', { title: 'Error in saving', message: 'Unable to fetch users due to: '+error+' with user as '+result });
-					}else{
-						res.location("/userlist");
-						res.redirect("/userlist");
-					}
-				});
-			}
+			res.redirect("/userlist");
 		});
 	}
 }
